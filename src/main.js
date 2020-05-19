@@ -21,10 +21,10 @@ import './plugins/vee-validate'
 import vuetify from './plugins/vuetify'
 import i18n from './i18n'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
+
+Vue.prototype.$http = axios
 
 new Vue({
   router,

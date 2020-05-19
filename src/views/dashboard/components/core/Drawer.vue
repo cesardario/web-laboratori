@@ -117,6 +117,11 @@
           to: '/patient',
         },
         {
+          icon: 'mdi-angle-obtuse',
+          title: 'user',
+          to: '/user',
+        },
+        {
           title: 'rtables',
           icon: 'mdi-clipboard-outline',
           to: '/tables/regular-tables',

@@ -4,7 +4,7 @@
     fluid
     tag="section"
   >
-    <v-row justify="rigth">
+    <v-row>
       <v-col
         cols="12"
         md="8"
@@ -181,6 +181,7 @@
     data (vm) {
       return {
         valid: true,
+        cabezera_tabla: [],
         patient: [],
         nombre: '',
         apellido_paterno: '',

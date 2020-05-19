@@ -19,9 +19,14 @@ export default new Router({
         },
         // Pages
         {
-          name: 'User Profile',
+          name: 'patient',
           path: 'patient',
           component: () => import('@/views/dashboard/pages/patient'),
+        },
+        {
+          name: 'user',
+          path: 'user',
+          component: () => import('@/views/dashboard/pages/users'),
         },
         {
           name: 'Notifications',

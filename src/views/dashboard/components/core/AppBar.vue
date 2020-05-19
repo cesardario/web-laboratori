@@ -110,7 +110,7 @@
       class="ml-2"
       min-width="0"
       text
-      to="/pages/user"
+      to="user"
     >
       <v-icon>mdi-account</v-icon>
     </v-btn>
