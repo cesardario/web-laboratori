@@ -87,6 +87,14 @@
             </v-container>
           </v-form>
         </base-material-card>
+        <v-simple-table
+            :headers="headers"
+            :items="data"
+            class="elevation-1"
+        
+        >
+
+        </v-simple-table>
       </v-col>
     </v-row>
   </v-container>
@@ -103,24 +111,39 @@
         email: '',
         pass: '',
         confirm_password: '',
+        data:[],
         reglas: [
           v => !!v || 'Este campo es requerido.',
           v => /.+@.+/.test(v) || 'E-mail no valido',
         ],
+        
+        headers: [
+          {
+            text: 'ID',
+            align: 'start',
+            sortable: false,
+            value: 'id',
+          },
+          { text: 'Nombre Paterno', value: 'name' },
+          { text: 'Apellido ', value: 'fat' },
+          { text: 'Carbs (g)', value: 'carbs' },
+          { text: 'Protein (g)', value: 'protein' },
+          { text: 'Iron (%)', value: 'iron' },
+        ]   
       }
     },
     computed: {
     },
     mounted () {
-      this.$http('https://jsonplaceholder.typicode.com/users').then(resultadoFinal => {
-        console.log(`Obtenido el resultado final: ${resultadoFinal}`)
+      this.$http('http://localhost:5050/patients').then(resultadoFinal => {
+        this.data = resultadoFinal.data
       })
     },
     methods: {
       guardarDatos () {
         this.$http.post({
           method: 'post',
-          url: 'http://localhost:3000/users',
+          url: 'http://localhost:5050/users',
           data: {
             name: this.name,
             username: this.username,
@@ -128,7 +151,7 @@
             password_digest: this.pass,
           },
         }).then(resultadoFinal => {
-          console.log(`Obtenido el resultado final: ${resultadoFinal}`)
+          this.data = resultadoFinal
         })
       },
     },
