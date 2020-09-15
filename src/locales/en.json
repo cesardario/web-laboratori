@@ -1,5 +1,5 @@
 {
-  "avatar": "Vuetify MD",
+  "avatar": "Bio-Tec",
   "buttons": "Buttons",
   "calendar": "Calendar",
   "charts": "Charts",
@@ -40,7 +40,11 @@
   "upgrade": "Upgrade To PRO",
   "patient": "Paciente",
   "user": "Usuario",
+  "species": "Especie",
+  "pdf":"pdf",
+  "Analitos":"Analitos",
   "vforms": "Validation Forms",
   "widgets": "Widgets",
+  "area": "area",
   "wizard": "Wizard"
 }

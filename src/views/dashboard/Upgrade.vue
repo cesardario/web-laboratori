@@ -123,9 +123,3 @@
   }
 </script>
 
-<style lang="sass">
-  #upgrade
-    .v-data-table
-      th, td
-        border: none !important
-</style>

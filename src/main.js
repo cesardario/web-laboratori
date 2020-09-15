@@ -21,6 +21,14 @@ import './plugins/vee-validate'
 import vuetify from './plugins/vuetify'
 import i18n from './i18n'
 import axios from 'axios'
+import VueCanCan from 'vue-cancan'
+import VueHtml2pdf from 'vue-html2pdf'
+import VueSummernote from 'vue-summernote'
+Vue.use(VueSummernote, {
+  dialogsFade: true
+})
+Vue.use(VueHtml2pdf)
+Vue.use(VueCanCan, { rules: window.Abilities })
 
 Vue.config.productionTip = false
 
