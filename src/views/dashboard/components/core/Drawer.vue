@@ -164,6 +164,4 @@ export default {
 
 <style lang="sass">
 @import '~vuetify/src/styles/tools/_rtl.sass'
-
-#core-navigation-drawer
 </style>

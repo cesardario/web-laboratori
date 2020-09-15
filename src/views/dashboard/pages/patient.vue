@@ -48,7 +48,7 @@
                                 <v-textarea label="Observaciones" v-model="datos.observations"></v-textarea>
                             </v-col>
                             <v-col cols="12" class="text-right">
-                                <v-btn v-if="editar===true" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
+                                <v-btn v-if="editar=== true" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
                                     Guardar
                                 </v-btn>
                                 <v-btn v-else :disabled="!valid" color="success" class="mr-0" @click="editar_datos(datos)">

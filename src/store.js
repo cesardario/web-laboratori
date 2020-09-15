@@ -9,6 +9,10 @@ export default new Vuex.Store({
     barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
     drawer: null,
     url: 'http://localhost:3030',
+    dialog3: false,
+    create: false,
+    editar:false,
+    datos:{}
 
   },
   mutations: {
@@ -18,6 +22,19 @@ export default new Vuex.Store({
     SET_DRAWER (state, payload) {
       state.drawer = payload
     },
+    true_form (state) {
+      state.create = true
+    },
+    false_form (state) {
+      state.create = false
+    },
+    true_editar(state){
+      state.editar = true
+    },
+    false_editar(state){
+      state.editar = false
+    }
+
   },
   actions: {
 
