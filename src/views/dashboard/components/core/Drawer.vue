@@ -161,7 +161,3 @@ export default {
     },
 }
 </script>
-
-<style lang="sass">
-@import '~vuetify/src/styles/tools/_rtl.sass'
-</style>

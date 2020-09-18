@@ -26,7 +26,7 @@
                                 <v-btn v-else :disabled="!valid" color="success" class="mr-0" @click="editar_datos(datos)">
                                     Actulizar
                                 </v-btn>
-                                <v-btn color="warning" @click="false_form;limpiar();">
+                                <v-btn color="warning" @click="ocultar">
                                     Salir
                                 </v-btn>
                             </v-col>
@@ -163,7 +163,13 @@ export default {
                 });
         },
         limpiar() {
-            this.datos = JSON.stringify({})
+            this.datos.name = ""
+            this.datos.description = ""
+        },
+        ocultar() {
+            this.limpiar()
+            this.$store.commit('false_form')
+
         },
         updated() {
             console.log("asdasd")

@@ -28,11 +28,14 @@ export default new Vuex.Store({
     false_form (state) {
       state.create = false
     },
-    true_editar(state){
+    true_editar(){
       state.editar = true
     },
     false_editar(state){
       state.editar = false
+    },
+    asig_data(state,datos) {
+      data = datos
     }
 
   },

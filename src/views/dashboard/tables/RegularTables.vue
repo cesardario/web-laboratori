@@ -84,6 +84,7 @@ export default {
             this.$store.commit('true_form')
         },
         edit(item) {
+            console.log(item)
             this.$store.commit('true_form');
             this.$store.commit('false_editar');
             this.datos = Object.assign({}, item)
