@@ -301,7 +301,16 @@ export default {
                 });
         },
         limpiar() {
-            this.datos = JSON.stringify({})
+            this.datos.name = "",
+                this.datos.first_name = "",
+                this.datos.last_name = "",
+                this.datos.doctor_attended = "",
+                this.datos.birth_date = "",
+                this.datos.sex = "",
+                this.datos.phone = "",
+                this.datos.doctor_attended = "",
+                this.datos.email = "",
+                this.datos.observations = ""
         }
     },
 }

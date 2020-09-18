@@ -8,7 +8,7 @@ export default new Vuex.Store({
     barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
     barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
     drawer: null,
-    url: 'http://localhost:3030',
+    url: 'http://localhost:3000',
     dialog3: false,
     create: false,
     editar:false,
