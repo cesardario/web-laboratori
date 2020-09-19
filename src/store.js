@@ -28,7 +28,7 @@ export default new Vuex.Store({
     false_form (state) {
       state.create = false
     },
-    true_editar(){
+    true_editar(state){
       state.editar = true
     },
     false_editar(state){

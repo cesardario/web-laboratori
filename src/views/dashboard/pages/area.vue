@@ -20,7 +20,7 @@
                                 <v-text-field v-model="datos.description" label="Descripcion" />
                             </v-col>
                             <v-col cols=" 12" class="text-right">
-                                <v-btn v-if="this.editar === true" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
+                                <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
                                     Guardar
                                 </v-btn>
                                 <v-btn v-else :disabled="!valid" color="success" class="mr-0" @click="editar_datos(datos)">

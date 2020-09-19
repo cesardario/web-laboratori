@@ -31,8 +31,7 @@
 
                 <v-spacer />
 
-                <v-icon aria-label="Close" @click="false_form,
-                     editar=true">
+                <v-icon aria-label="Close" @click="false_form">
                     mdi-close
                 </v-icon>
             </v-card-title>
@@ -80,13 +79,16 @@ export default {
     methods: {
         ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar']),
         inicio() {
-            this.$store.commit('true_editar')
             this.$store.commit('true_form')
+            this.$store.commit('false_editar')
+            console.log(this.editar)
+
         },
         edit(item) {
-            console.log(item)
+
+            console.log(this.editar)
             this.$store.commit('true_form');
-            this.$store.commit('false_editar');
+            this.$store.commit('true_editar')
             this.datos = Object.assign({}, item)
         },
     }
