@@ -18,26 +18,26 @@
                 <v-icon small class="mr-2" @click="edit(item)">
                     mdi-pencil
                 </v-icon>
-                <v-icon small @click="this.dialog3=true ,datos = item">
+                <v-icon small @click="dialog3=true ,datos=item">
                     mdi-delete
                 </v-icon>
             </template>
         </v-data-table>
     </v-row>
-    <v-dialog v-model="this.dialog3" max-width="400">
+    <v-dialog v-model="dialog3" max-width="400">
         <v-card>
             <v-card-title>
-                Esta seguro en eliminar el paciente?
+                Esta seguro en eliminar el Area?
 
-                <v-spacer />
+                <v-espacer />
 
-                <v-icon aria-label="Close" @click="false_form">
+                <v-icon aria-label="Close" @click="false_form ">
                     mdi-close
                 </v-icon>
             </v-card-title>
 
             <v-card-text class="pb-6 pt-12 text-center">
-                <v-btn class="mr-3" text @click="this.dialog3 = false">
+                <v-btn class="mr-3" text @click="dialog3 = false">
                     cerrar
                 </v-btn>
 
@@ -47,7 +47,9 @@
             </v-card-text>
         </v-card>
     </v-dialog>
-
+    <v-snackbar v-model="snackbar" color="success" right="right" top="top" :timeout="350">
+        {{ mns }}
+    </v-snackbar>
 </v-container>
 </template>
 
@@ -58,7 +60,7 @@ import {
 } from 'vuex'
 export default {
     computed: {
-        ...mapState(['dialog3', 'create', 'editar']),
+        ...mapState(['url', 'create', 'editar', 'store_datos']),
     },
     props: {
         title: {
@@ -70,27 +72,57 @@ export default {
         },
         headers: {
             type: Array
-        }
+        },
+        api: {
+            type: String,
+            default: "api"
 
+        }
     },
     data() {
-        return {}
+        return {
+            dialog3: false,
+            datos: [],
+            mns: '',
+            snackbar: false,
+        }
     },
     methods: {
-        ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar']),
+        ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar', 'asig_data', 'CLEAN_DATA']),
         inicio() {
             this.$store.commit('true_form')
             this.$store.commit('false_editar')
-            console.log(this.editar)
 
         },
         edit(item) {
-
-            console.log(this.editar)
+            console.log(item)
             this.$store.commit('true_form');
             this.$store.commit('true_editar')
-            this.datos = Object.assign({}, item)
+            this.$store.commit('asig_data', item)
+            console.log(this.store_datos)
+
         },
+        eliminar(item) {
+            console.log(item.id)
+            this.$http.delete(`${this.url}/areas/${item.id}`, item)
+                .then(resultadoFinal => {
+                    if (resultadoFinal.status === 204) {
+                        this.mns = JSON.stringify(resultadoFinal)
+                        this.dialog3 = false
+                        this.snackbar = true
+                        this.dialog3 = false
+                        this.consulta()
+
+                    }
+                }).catch(error => {
+                    console.log('error', error)
+                });
+        },
+        consulta() {
+            this.$http(`${this.url}/areas`).then(resultadoFinal => {
+                this.data = resultadoFinal.data
+            })
+        }
     }
 }
 </script>

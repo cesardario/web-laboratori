@@ -9,13 +9,13 @@ export default new Vuex.Store({
     barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
     drawer: null,
     url: 'http://localhost:3000',
-    dialog3: false,
     create: false,
     editar:false,
-    datos:{}
+    store_datos:{}
 
   },
   mutations: {
+        // Mayuscula Buenas Practicas 
     SET_BAR_IMAGE (state, payload) {
       state.barImage = payload
     },
@@ -35,7 +35,14 @@ export default new Vuex.Store({
       state.editar = false
     },
     asig_data(state,datos) {
-      data = datos
+      state.store_datos = Object.assign({}, datos)
+    
+      console.log(state.store_datos )
+    },
+    CLEAN_DATA(state) {
+      state.store_datos = JSON.stringify({})
+      console.log(state.store_datos )
+
     }
 
   },

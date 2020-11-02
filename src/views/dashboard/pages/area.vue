@@ -13,17 +13,17 @@
                     <v-container class="py-0">
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-text-field v-model="datos.name" label="Nombre" :rules="[reglas[0]]" />
+                                <v-text-field v-model="store_datos.name" label="Nombre" :rules="[reglas[0]]" />
                             </v-col>
 
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="datos.description" label="Descripcion" />
+                                <v-text-field v-model="store_datos.description" label="Description" />
                             </v-col>
                             <v-col cols=" 12" class="text-right">
                                 <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
                                     Guardar
                                 </v-btn>
-                                <v-btn v-else :disabled="!valid" color="success" class="mr-0" @click="editar_datos(datos)">
+                                <v-btn v-else :disabled="!valid" color="success" class="mr-0" @click="editar_datos(store_datos)">
                                     Actulizar
                                 </v-btn>
                                 <v-btn color="warning" @click="ocultar">
@@ -40,8 +40,7 @@
             </v-snackbar>
         </v-col>
     </v-row>
-    <regular-tables v-bind:title="titulo" v-bind:data="data" v-bind:headers="headers"></regular-tables>
-
+    <regular-tables v-bind:title="titulo" v-bind:data="data" v-bind:headers="headers" v-bind:api="api"></regular-tables>
 </v-container>
 </template>
 
@@ -52,13 +51,14 @@ import {
 } from 'vuex'
 export default {
     computed: {
-        ...mapState(['url', 'dialog3', 'create', 'editar']),
+        ...mapState(['url', 'create', 'editar', 'store_datos']),
     },
     components: {
         RegularTables: () => import('@/views/dashboard/tables/RegularTables')
     },
     data(v) {
         return {
+            api: "areas",
             snackbar: false,
             mns: "",
             titulo: "Areas",
@@ -83,11 +83,6 @@ export default {
                     sortable: false
                 },
             ],
-            datos: {
-                name: "",
-                description: ""
-
-            },
             data: [],
             reglas: [
                 v => !!v || 'Este campo es requerido.'
@@ -95,19 +90,16 @@ export default {
         }
     },
     mounted() {
-        this.consulta()
 
+        this.consulta()
     },
     methods: {
-        ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar', 'get_data']),
+        ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar', 'get_data', 'asig_data', 'CLEAN_DATA']),
         guardarDatos() {
-
+            console.log(this.store_datos)
             this.valid = false
             this.$http.post(
-                `${this.url}/areas`, {
-                    name: this.datos.name,
-                    description: this.datos.description,
-                },
+                `${this.url}/areas`, this.store_datos,
             ).then(resultadoFinal => {
                 if (resultadoFinal.status === 201) {
                     this.mns = JSON.stringify("Los datos se an Guardo Correctamente")
@@ -138,6 +130,7 @@ export default {
                         this.mns = JSON.stringify(resultadoFinal)
                         this.snackbar = true
                         this.consulta()
+                        this.$store.commit('CLEAN_DATA')
 
                     } else {
                         this.valid = true
@@ -146,33 +139,12 @@ export default {
                     this.valid = true
                 });
         },
-        eliminar(item) {
-            console.log(item)
-            this.$http.delete(`${this.url}/areas/${item.id}`, item)
-                .then(resultadoFinal => {
-                    if (resultadoFinal.status === 204) {
-                        this.mns = JSON.stringify(resultadoFinal)
-                        this.dialog3 = false
-                        this.snackbar = true
-                        this.consulta()
-                        this.dialog3 = false
-
-                    }
-                }).catch(error => {
-                    console.log('error', error)
-                });
-        },
         limpiar() {
             this.datos.name = ""
             this.datos.description = ""
         },
         ocultar() {
-            this.limpiar()
             this.$store.commit('false_form')
-
-        },
-        updated() {
-            console.log("asdasd")
         },
     }
 
