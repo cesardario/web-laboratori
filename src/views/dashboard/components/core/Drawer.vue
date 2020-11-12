@@ -126,6 +126,11 @@ export default {
                 icon: 'mdi-atom',
                 to: '/analitos',
             },
+            {
+                title: 'estudios',
+                icon: 'mdi-atom',
+                to: '/estudios',
+            },
         ],
     }),
 

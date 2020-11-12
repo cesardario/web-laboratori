@@ -13,24 +13,28 @@
                     <v-container class="py-0">
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-text-field v-model="store_datos.name" label="Nombre" :rules="[reglas[0]]" />
+                                <v-text-field v-model="store_datos.code" label="code" :rules="[reglas[0]]" />
                             </v-col>
                             <v-col cols="12" md="6">
-                                <v-text-field v-model="store_datos.result" label="Resultado" :rules="[reglas[0]]" />
+                                <v-text-field v-model="store_datos.name" label="Nombre" :rules="[reglas[0]]" />
                             </v-col>
 
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.unit" label="Unidad" :rules="[reglas[0]]" />
+                                <v-text-field v-model="store_datos.method" label="Metodo" :rules="[reglas[0]]" />
                             </v-col>
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.min_reference" label="Valor Referencia" :rules="[reglas[0]]" />
+                                <v-text-field v-model="store_datos.tube" label="Tubo" :rules="[reglas[0]]" />
                             </v-col>
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.max_reference" label="Valor de referencia" :rules="[reglas[0]]" />
+                                <v-text-field v-model="store_datos.sample" label="Muestra" :rules="[reglas[0]]" />
                             </v-col>
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.observations" label="Observaciones" />
+                                <v-text-field v-model="store_datos.patient_conditions" label="Condicion del paciente" />
                             </v-col>
+                            <v-col cols="12" md="12">
+                                <v-select type="number" :items="items" item-text="name" item-value="id" v-model="store_datos.area_id" filled label="Areas" :rules="[reglas[0]]"></v-select>
+                            </v-col>
+                            {{ store_datos.area_id }}
 
                             <v-col cols=" 12" class="text-right">
                                 <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
@@ -71,10 +75,10 @@ export default {
     },
     data(v) {
         return {
-            api: "analytes",
+            api: "studies",
             snackbar: false,
             mns: "",
-            titulo: "Analitos",
+            titulo: "Estudios",
             items: [],
             valid: true,
             headers: [{
@@ -84,28 +88,28 @@ export default {
                     value: 'id',
                 },
                 {
+                    text: 'code',
+                    value: 'code'
+                },
+                {
                     text: 'nombre',
                     value: 'name'
                 },
                 {
-                    text: 'resultado',
-                    value: 'result'
+                    text: 'metodo',
+                    value: 'method'
                 },
                 {
-                    text: 'unidad',
-                    value: 'unit'
+                    text: 'tubo',
+                    value: 'tube'
                 },
                 {
-                    text: 'valor referencia',
-                    value: 'min_reference'
+                    text: 'muestra',
+                    value: 'sample'
                 },
                 {
-                    text: 'valor referencia',
-                    value: 'max_reference'
-                },
-                {
-                    text: 'Observaciones',
-                    value: 'max_reference'
+                    text: 'Condicion de paciente',
+                    value: 'patient_conditions'
                 },
                 {
                     text: 'Operaciones',
@@ -154,7 +158,10 @@ export default {
                 this.data = resultadoFinal.data
                 console.log(this.data)
             })
-
+            this.$http(`${this.url}/areas`).then(resultadoFinal => {
+                this.items = resultadoFinal.data
+                console.log(this.items)
+            })
         },
         editar_datos(item) {
             console.log(item)

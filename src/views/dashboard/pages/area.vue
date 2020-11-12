@@ -17,7 +17,7 @@
                             </v-col>
 
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.description" label="Description" />
+                                <v-text-field v-model="store_datos.description" label="Description"  />
                             </v-col>
                             <v-col cols=" 12" class="text-right">
                                 <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
@@ -129,8 +129,8 @@ export default {
                     if (resultadoFinal.status === 200) {
                         this.mns = JSON.stringify(resultadoFinal)
                         this.snackbar = true
-                        this.consulta()
                         this.$store.commit('CLEAN_DATA')
+                        this.consulta()
 
                     } else {
                         this.valid = true

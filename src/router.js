@@ -88,6 +88,11 @@ const router = new Router({
           path: 'area',
           component: () => import('@/views/dashboard/pages/area'),
         },
+        {
+          name: 'estudios',
+          path: 'estudios',
+          component: () => import('@/views/dashboard/pages/estudios'),
+        },
       ],
     },
   ],

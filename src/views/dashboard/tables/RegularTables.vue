@@ -104,7 +104,7 @@ export default {
         },
         eliminar(item) {
             console.log(item.id)
-            this.$http.delete(`${this.url}/areas/${item.id}`, item)
+            this.$http.delete(`${this.url}/${this.api}/${item.id}`, item)
                 .then(resultadoFinal => {
                     if (resultadoFinal.status === 204) {
                         this.mns = JSON.stringify(resultadoFinal)
@@ -119,7 +119,7 @@ export default {
                 });
         },
         consulta() {
-            this.$http(`${this.url}/areas`).then(resultadoFinal => {
+            this.$http(`${this.url}/${this.api}`).then(resultadoFinal => {
                 this.data = resultadoFinal.data
             })
         }
