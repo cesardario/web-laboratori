@@ -1,5 +1,7 @@
 <template>
 <v-container id="user-profile" fluid tag="section">
+    <v-alert v-if="mensaje" dismissible text :type="type"> {{ mns }}</v-alert>
+
     <v-row v-if="this.create">
         <v-col cols="12" md="12">
             <base-material-card>
@@ -17,7 +19,7 @@
                             </v-col>
 
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.description" label="Description"  />
+                                <v-text-field v-model="store_datos.description" label="Description" />
                             </v-col>
                             <v-col cols=" 12" class="text-right">
                                 <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
@@ -58,6 +60,8 @@ export default {
     },
     data(v) {
         return {
+            type: "success",
+            mensaje: false,
             api: "areas",
             snackbar: false,
             mns: "",
@@ -102,12 +106,15 @@ export default {
                 `${this.url}/areas`, this.store_datos,
             ).then(resultadoFinal => {
                 if (resultadoFinal.status === 201) {
-                    this.mns = JSON.stringify("Los datos se an Guardo Correctamente")
+                    this.mns = "Los datos Guardados"
                     this.valid = true
+                    this.mensaje = true
                     this.consulta()
                     this.limpiar()
                 } else {
                     this.valid = true
+                    this.mns = "Hubo un error"
+                    this.type = "warning"
 
                 }
             }).catch(error => {

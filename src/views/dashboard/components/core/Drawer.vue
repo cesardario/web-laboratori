@@ -131,6 +131,11 @@ export default {
                 icon: 'mdi-atom',
                 to: '/estudios',
             },
+            {
+                title: 'orden_estudio',
+                icon: 'mdi-atom',
+                to: '/orden_estudio',
+            },
         ],
     }),
 

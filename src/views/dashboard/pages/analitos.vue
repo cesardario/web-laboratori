@@ -123,6 +123,9 @@ export default {
 
         this.consulta()
     },
+    beforeDestroy() {
+        this.consulta()
+    },
     methods: {
         ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar', 'get_data', 'asig_data', 'CLEAN_DATA']),
         guardarDatos() {

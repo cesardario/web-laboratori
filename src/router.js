@@ -93,6 +93,11 @@ const router = new Router({
           path: 'estudios',
           component: () => import('@/views/dashboard/pages/estudios'),
         },
+        {
+          name: 'orden_estudio',
+          path: 'orden_estudio',
+          component: () => import('@/views/dashboard/pages/ordenEstudio'),
+        },
       ],
     },
   ],

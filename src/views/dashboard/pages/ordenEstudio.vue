@@ -9,33 +9,16 @@
                     </div>
                 </template>
 
-                <v-form ref="form" v-model="valid">
+                <v-form ref="form" v-model="valid" v-if="this.create">
                     <v-container class="py-0">
                         <v-row>
-                            <v-col cols="12" md="4">
-                                <v-text-field v-model="store_datos.code" label="code" :rules="[reglas[0]]" />
-                            </v-col>
-                            <v-col cols="12" md="6">
-                                <v-text-field v-model="store_datos.name" label="Nombre" :rules="[reglas[0]]" />
+                            <v-col cols="12" md="12">
+                                <v-autocomplete v-model="paciente" item-text="name" item-value="id" :items="pacientes" dense filled label="Paciente"></v-autocomplete>
                             </v-col>
 
                             <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.method" label="Metodo" :rules="[reglas[0]]" />
+                                <v-autocomplete v-model="estudio" item-text="name" item-value="id" :items="estudios" dense filled label="Estudios"></v-autocomplete>
                             </v-col>
-                            <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.tube" label="Tubo" :rules="[reglas[0]]" />
-                            </v-col>
-                            <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.sample" label="Muestra" :rules="[reglas[0]]" />
-                            </v-col>
-                            <v-col cols="12" md="12">
-                                <v-text-field v-model="store_datos.patient_conditions" label="Condicion del paciente" />
-                            </v-col>
-                            <v-col cols="12" md="12">
-                                <v-select type="number" :items="items" item-text="name" item-value="id" v-model="store_datos.area_id" filled label="Areas" :rules="[reglas[0]]"></v-select>
-                            </v-col>
-                            {{ store_datos.area_id }}
-
                             <v-col cols=" 12" class="text-right">
                                 <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
                                     Guardar
@@ -50,6 +33,7 @@
                         </v-row>
                     </v-container>
                 </v-form>
+                {{ paciente }} {{ estudio }}
 
             </base-material-card>
             <v-snackbar v-model="snackbar" color="success" right="right" top="top" :timeout="350">
@@ -57,7 +41,6 @@
             </v-snackbar>
         </v-col>
     </v-row>
-    <regular-tables v-bind:title="titulo" v-bind:data="data" v-bind:headers="headers" v-bind:api="api"></regular-tables>
 </v-container>
 </template>
 
@@ -69,17 +52,21 @@ import {
 export default {
     computed: {
         ...mapState(['url', 'create', 'editar', 'store_datos']),
+        nombrecompleto() {
+
+        }
     },
-    components: {
-        RegularTables: () => import('@/views/dashboard/tables/RegularTables')
-    },
+    components: {},
     data(v) {
         return {
-            api: "studies",
+            estudio: "",
+            paciente: 0,
+            pacientes: [],
+            estudios: [],
+            api: "areas",
             snackbar: false,
             mns: "",
-            titulo: "Estudios",
-            items: [],
+            titulo: "Orden de Estudio",
             valid: true,
             headers: [{
                     text: 'Folio',
@@ -88,28 +75,12 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: 'code',
-                    value: 'code'
-                },
-                {
-                    text: 'nombre',
+                    text: 'Nombre',
                     value: 'name'
                 },
                 {
-                    text: 'metodo',
-                    value: 'method'
-                },
-                {
-                    text: 'tubo',
-                    value: 'tube'
-                },
-                {
-                    text: 'muestra',
-                    value: 'sample'
-                },
-                {
-                    text: 'Condicion de paciente',
-                    value: 'patient_conditions'
+                    text: 'Descripcion',
+                    value: 'description'
                 },
                 {
                     text: 'Operaciones',
@@ -125,25 +96,25 @@ export default {
     },
     mounted() {
 
-        this.consulta()
-    },
-    beforeDestroy() {
+        this.$store.commit('true_form')
+        this.$store.commit('false_editar')
         this.consulta()
     },
     methods: {
         ...mapMutations(['true_form', 'false_form', 'true_editar', 'false_editar', 'get_data', 'asig_data', 'CLEAN_DATA']),
         guardarDatos() {
-            this.store_datos.area_id = 2
+            console.log(this.store_datos)
             this.valid = false
             this.$http.post(
-                `${this.url}/${this.api}`, this.store_datos,
+                `${this.url}/areas`, this.store_datos,
             ).then(resultadoFinal => {
                 if (resultadoFinal.status === 201) {
+                    this.snackbar = true
                     this.mns = JSON.stringify("Los datos se an Guardo Correctamente")
-                    this.valid = true
-                    this.limpiar()
-                    this.consulta()
 
+                    this.valid = true
+                    this.consulta()
+                    this.limpiar()
                 } else {
                     this.valid = true
 
@@ -156,18 +127,19 @@ export default {
 
         },
         consulta() {
-            this.$http(`${this.url}/${this.api}`).then(resultadoFinal => {
-                this.data = resultadoFinal.data
-                console.log(this.data)
+            this.$http(`${this.url}/patients`).then(resultadoFinal => {
+                this.pacientes = resultadoFinal.data
+
             })
-            this.$http(`${this.url}/areas`).then(resultadoFinal => {
-                this.items = resultadoFinal.data
-                console.log(this.items)
+            this.$http(`${this.url}/studies`).then(resultadoFinal => {
+                this.estudios = resultadoFinal.data
+
             })
+
         },
         editar_datos(item) {
             console.log(item)
-            this.$http.put(`${this.url}/${this.api}/${item.id}`, item)
+            this.$http.put(`${this.url}/areas/${item.id}`, item)
                 .then(resultadoFinal => {
                     if (resultadoFinal.status === 200) {
                         this.mns = JSON.stringify(resultadoFinal)
@@ -183,7 +155,6 @@ export default {
                 });
         },
         limpiar() {
-            this.$store.commit('CLEAN_DATA')
 
         },
         ocultar() {
