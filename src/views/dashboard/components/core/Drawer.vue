@@ -73,7 +73,7 @@ export default {
             },
             {
                 icon: 'mdi-account',
-                title: 'patient',
+                title: 'ingreso',
                 to: '/patient',
             },
             {

@@ -16,8 +16,12 @@
                                 <v-autocomplete v-model="paciente" item-text="name" item-value="id" :items="pacientes" dense filled label="Paciente"></v-autocomplete>
                             </v-col>
 
-                            <v-col cols="12" md="12">
+                            <v-col cols="12" md="6">
                                 <v-autocomplete v-model="estudio" item-text="name" item-value="id" :items="estudios" dense filled label="Estudios"></v-autocomplete>
+                            </v-col>
+
+                                                        <v-col cols="6" md="6">
+                                <v-autocomplete v-model="estudio" item-text="name" item-value="id" :items="estudios" dense filled label="Analitos"></v-autocomplete>
                             </v-col>
                             <v-col cols=" 12" class="text-right">
                                 <v-btn v-if="this.editar === false" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">

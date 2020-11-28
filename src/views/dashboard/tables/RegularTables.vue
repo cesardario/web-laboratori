@@ -1,9 +1,25 @@
 <template>
 <v-container id="user-profile" fluid tag="section">
-    <v-row>
-        <v-data-table :headers="headers" :items="data" class="elevation-1">
-
-            <template v-slot:top>
+      
+       <v-card>
+    <v-card-title>
+      {{ title }}
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="data"
+      :search="search"
+    >
+    
+   <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>{{ title }}</v-toolbar-title>
 
@@ -22,8 +38,15 @@
                     mdi-delete
                 </v-icon>
             </template>
-        </v-data-table>
-    </v-row>
+    
+    </v-data-table>
+  </v-card> 
+      
+      
+      
+      
+      
+
     <v-dialog v-model="dialog3" max-width="400">
         <v-card>
             <v-card-title>
@@ -81,6 +104,7 @@ export default {
     },
     data() {
         return {
+            search:"",
             dialog3: false,
             datos: [],
             mns: '',

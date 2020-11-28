@@ -46,7 +46,15 @@
                             </v-col>
                             <v-col cols="12" md="12">
                                 <v-textarea label="Observaciones" v-model="datos.observations"></v-textarea>
-                            </v-col>
+                            </v-col >
+
+                            <v-col cols="12" md="12" >    
+
+<v-autocomplete v-model="select" item-text="name" item-value="name" :items="autoComplete " label="Pruebas" return-object
+  multiple
+></v-autocomplete>
+
+</v-col>
                             <v-col cols="12" class="text-right">
                                 <v-btn v-if="editar=== true" :disabled="!valid" color="success" class="mr-0" @click="guardarDatos">
                                     Guardar
@@ -63,9 +71,36 @@
                     </v-container>
                 </v-form>
             </base-material-card>
-            <v-data-table :headers="headers" :items="data" class="elevation-1">
 
-                <template v-slot:top>
+
+  <v-card>
+    <v-card-title>
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+      >
+      </v-text-field>
+
+     <v-col
+          cols="12"
+          sm="6"
+          md="3"
+        >
+        <v-autocomplete v-model="id" item-text="id" item-value="id" :items="data " label="Folio" 
+  
+></v-autocomplete>
+
+        </v-col>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="filterId"
+      :search="search"
+    >
+    
+                   <template v-slot:top>
                     <v-toolbar flat color="white">
                         <v-toolbar-title>Pacientes</v-toolbar-title>
 
@@ -83,8 +118,20 @@
                     <v-icon small @click="dialog3=true ,datos = item">
                         mdi-delete
                     </v-icon>
-                </template>
-            </v-data-table>
+
+        <v-icon small class="mr-2" @click="edit(item)">
+        mdi-arrow-bottom-left
+                    </v-icon>
+                </template> 
+    
+    
+    </v-data-table>
+  </v-card>
+                {{ id }}
+
+
+
+
             <v-snackbar v-model="snackbar" color="success" right="right" top="top" :timeout="350">
                 {{ mns }}
             </v-snackbar>
@@ -124,6 +171,22 @@ import {
 export default {
     data(vm) {
         return {
+            select:0,
+            tipo_estudios:[{
+                id:1,
+                name:"Codigo"
+                
+            },{
+                id:2,
+                name:"nombre"
+                
+            },{
+                id:3,
+                name:"abreviatura"
+                
+            }],
+            id:0,
+            search:"",
             dialog3: false,
             editar: true,
             create: false,
@@ -131,11 +194,12 @@ export default {
             snackbar: false,
             mns: '',
             data: [],
+            items:[],
+            autocomplete:[],
             valid: true,
             headers: [{
                     text: 'Folio',
                     align: 'start',
-                    sortable: false,
                     value: 'id',
                 },
                 {
@@ -193,7 +257,7 @@ export default {
             maximo: new Date().toISOString().substr(0, 10),
             menu1: false,
             menu2: false,
-            sexo: ['hombre', 'mujer'],
+            sexo: ['hombre', 'mujer','macho','hembra'],
             rules: {
                 required: v => !!v || 'Este campo es requerido.',
                 emailRules: v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'No es correcto el formato del correo'
@@ -206,6 +270,18 @@ export default {
         computedDateFormatted() {
             return this.formatDate(this.birth_date)
         },
+        filterId () {
+console.log(this.id)
+            if(this.id !== 0  ){
+        return  this.data.filter(key => key.id === parseInt(this.id ) )
+            }
+
+            return this.data
+      },
+    autoComplete () {
+        console.log(this.autocomplete)
+        return  this.autocomplete.reduce(( acc, el  ) => acc.concat(el),[])
+      }
     },
     mounted() {
         this.consulta()
@@ -258,8 +334,15 @@ export default {
         },
         consulta() {
             this.$http(`${this.url}/patients`).then(resultadoFinal => {
-                console.log(this.url)
                 this.data = resultadoFinal.data
+            })
+              this.$http(`${this.url}/analytes`).then(resultadoFinal => {
+                this.autocomplete.push(resultadoFinal.data)
+
+            })
+            this.$http(`${this.url}/studies`).then(resultadoFinal => {
+                this.autocomplete.push(resultadoFinal.data)
+
             })
         },
         edit(item) {
@@ -315,3 +398,4 @@ export default {
     },
 }
 </script>
+

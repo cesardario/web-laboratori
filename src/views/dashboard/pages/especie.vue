@@ -56,7 +56,6 @@ export default {
         return {
             valid: true,
             datos: {
-                name: "",
                 species: "",
                 age: "",
                 owner: "",
